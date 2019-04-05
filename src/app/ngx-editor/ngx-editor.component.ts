@@ -100,6 +100,7 @@ export class NgxEditorComponent implements OnInit, ControlValueAccessor {
    */
   onTextAreaFocus(): void {
     this.focus.emit('focus');
+    Utils.restoreSelection(this._commandExecutor.savedSelection);
   }
 
   /** focus the text area when the editor is focussed */

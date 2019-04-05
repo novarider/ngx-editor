@@ -32,8 +32,9 @@ export class NgxEditorToolbarComponent implements OnInit {
   fontName = '';
   /** font size */
   fontSize = '';
-  /** hex color code */
-  hexColor = '';
+  /** saves the selected color from the color picker font and background */
+  selectedFontColor: any = '#000000'
+  selectedBackgroundColor: any = '#FFFFFF';
   /** show/hide image uploader */
   isImageUploader = false;
 
@@ -191,9 +192,13 @@ export class NgxEditorToolbarComponent implements OnInit {
   }
 
   /** inser text/background color */
-  insertColor(color: string, where: string): void {
+  insertColor(fontColor: string, backgroundColor: string, where: string): void {
     try {
-      this._commandExecutorService.insertColor(color, where);
+      if (where === 'textColor') {
+        this._commandExecutorService.insertColor(fontColor, where);
+      } else if (where === 'backgroundColor') {
+        this._commandExecutorService.insertColor(backgroundColor, where);
+      }
     } catch (error) {
       this._messageService.sendMessage(error.message);
     }

@@ -9,12 +9,29 @@ import { NgxEditorMessageComponent } from './ngx-editor-message/ngx-editor-messa
 import { NgxEditorToolbarComponent } from './ngx-editor-toolbar/ngx-editor-toolbar.component';
 import { MessageService } from './common/services/message.service';
 import { CommandExecutorService } from './common/services/command-executor.service';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, PopoverModule.forRoot()],
-  declarations: [NgxEditorComponent, NgxGrippieComponent, NgxEditorMessageComponent, NgxEditorToolbarComponent],
-  exports: [NgxEditorComponent],
-  providers: [CommandExecutorService, MessageService]
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    PopoverModule.forRoot(),
+    ColorPickerModule
+  ],
+  declarations: [
+    NgxEditorComponent, 
+    NgxGrippieComponent, 
+    NgxEditorMessageComponent, 
+    NgxEditorToolbarComponent
+  ],
+  exports: [
+    NgxEditorComponent
+  ],
+  providers: [
+    CommandExecutorService, 
+    MessageService
+  ]
 })
 
 export class NgxEditorModule { }

@@ -61,9 +61,13 @@ export function saveSelection(): any {
   if (window.getSelection) {
     const sel = window.getSelection();
     if (sel.getRangeAt && sel.rangeCount) {
+      console.log('save selection (from window)');
+      console.log(sel.getRangeAt(0));
       return sel.getRangeAt(0);
     }
   } else if (document.getSelection && document.createRange) {
+    console.log('save selection (from document)');
+    console.log(document.createRange());
     return document.createRange();
   }
   return null;
@@ -75,6 +79,9 @@ export function saveSelection(): any {
  * @param range saved selection when the editor is focussed out
  */
 export function restoreSelection(range): boolean {
+  console.log('restore selection');
+  console.log(range);
+
   if (range) {
     if (window.getSelection) {
       const sel = window.getSelection();

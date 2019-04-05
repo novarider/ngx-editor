@@ -131,7 +131,7 @@
       <i class="fa fa-chain-broken" aria-hidden="true"></i>
     </button>
     <button type="button" class="ngx-editor-button" *ngIf="canEnableToolbarOptions('image')" (click)="buildImageForm()"
-      title="Insert Image" [popover]="insertImageTemplate" #imagePopover="bs-popover" containerClass="ngxePopover"
+      title="Insert Image" [popover]="dragAndDropImageToTextareaTemplate" #imagePopover="bs-popover" containerClass="ngxePopover"
       [disabled]="!config['enableToolbar']">
       <i class="fa fa-picture-o" aria-hidden="true"></i>
     </button>
@@ -210,33 +210,10 @@
   </div>
 </ng-template>
 
-
-<!-- Insert Video Popover template -->
-<ng-template #insertVideoTemplate>
+<ng-template #dragAndDropImageToTextareaTemplate>
   <div class="ngxe-popover imgc-ctnr">
-    <div class="imgc-topbar btn-ctnr">
-      <button type="button" class="btn active">
-        <i class="fa fa-link"></i>
-      </button>
-    </div>
-    <div class="imgc-ctnt is-image">
-      <form class="extra-gt" [formGroup]="videoForm" (ngSubmit)="videoForm.valid && insertVideo()" autocomplete="off">
-        <div class="form-group">
-          <label for="videoURLInput" class="small">URL</label>
-          <input type="text" class="form-control-sm" id="videoURLInput" placeholder="URL" formControlName="videoUrl"
-            required>
-        </div>
-        <div class="row form-group">
-          <div class="col">
-            <input type="text" class="form-control-sm" formControlName="height" placeholder="height (px)" pattern="[0-9]">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control-sm" formControlName="width" placeholder="width (px)" pattern="[0-9]">
-          </div>
-          <label class="small">Height/Width</label>
-        </div>
-        <button type="submit" class="btn-primary btn-sm btn">Submit</button>
-      </form>
+    <div class="imgc-topbar btn-ctnr p-2">
+      <p class="text-center">Just Drag & Drop the image <br> into the textarea!</p>
     </div>
   </div>
 </ng-template>
@@ -245,17 +222,29 @@
 <ng-template #insertColorTemplate>
   <div class="ngxe-popover imgc-ctnr">
     <div class="imgc-topbar two-tabs">
-      <span (click)="selectedColorTab ='textColor'" [ngClass]="{active: selectedColorTab ==='textColor'}">Text</span>
-      <span (click)="selectedColorTab ='backgroundColor'" [ngClass]="{active: selectedColorTab ==='backgroundColor'}">Background</span>
+      <span (click)="selectedColorTab = 'textColor'" [ngClass]="{active: selectedColorTab ==='textColor'}">Text</span>
+      <span (click)="selectedColorTab = 'backgroundColor'" [ngClass]="{active: selectedColorTab ==='backgroundColor'}">Background</span>
     </div>
     <div class="imgc-ctnt is-color extra-gt1">
       <form autocomplete="off">
         <div class="form-group">
-          <label for="hexInput" class="small">Hex Color</label>
-          <input type="text" class="form-control-sm" id="hexInput" name="hexInput" maxlength="7" placeholder="HEX Color"
-            [(ngModel)]="hexColor" required>
+          <label for="hexInput" class="label-shown">Choose a {{ selectedColorTab === 'textColor' ? 'Text' : 'Background' }} Color</label>
+          <span *ngIf="selectedColorTab === 'backgroundColor'"
+                [style.background]="selectedBackgroundColor"
+                [cpToggle]="true"
+                [cpDialogDisplay]="'inline'"
+                [cpCancelButton]="false"
+                [(colorPicker)]="selectedBackgroundColor"></span>
+
+          <span *ngIf="selectedColorTab === 'textColor'"
+                [style.background]="selectedFontColor"
+                [cpToggle]="true"
+                [cpDialogDisplay]="'inline'"
+                [cpCancelButton]="false"
+                [(colorPicker)]="selectedFontColor"></span>
         </div>
-        <button type="button" class="btn-primary btn-sm btn" (click)="insertColor(hexColor, selectedColorTab)">Submit</button>
+        <button type="button" class="btn-primary btn-sm btn" 
+          (click)="insertColor(selectedFontColor, selectedBackgroundColor, selectedColorTab)">Submit</button>
       </form>
     </div>
   </div>
@@ -266,11 +255,24 @@
   <div class="ngxe-popover extra-gt1">
     <form autocomplete="off">
       <div class="form-group">
-        <label for="fontSize" class="small">Font Size</label>
-        <input type="text" class="form-control-sm" id="fontSize" name="fontSize" placeholder="Font size in px/rem"
-          [(ngModel)]="fontSize" required>
+        <label class="label-shown" for="fontSize">Choose Font Size:</label>
+        <div class="btn-toolbar" role="toolbar" name="fontSize">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary" (click)="setFontSize(1)">1</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(2)">2</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(3)">3</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(4)">4</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(5)">5</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(6)">6</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize(7)">7</button>
+          </div>
+        </div>
+        <!--<input type="number" min="1" max="7" class="form-control-sm" id="fontSize" name="fontSize" placeholder="Fontsize: 1 - 7"
+          [(ngModel)]="fontSize" #fontSizeInput="ngModel" required>-->
       </div>
-      <button type="button" class="btn-primary btn-sm btn" (click)="setFontSize(fontSize)">Submit</button>
+      <!--<button [disabled]="!fontSizeInput.valid || fontSizeInput.errors?.max || fontSizeInput.errors?.min" type="button" class="btn-primary btn-sm btn"
+      (click)="setFontSize(fontSize)">Submit</button>-->
+      <!-- todo: input validation if number field is used-->
     </form>
   </div>
 </ng-template>
@@ -281,7 +283,7 @@
     <form autocomplete="off">
       <div class="form-group">
         <label for="fontSize" class="small">Font Size</label>
-        <input type="text" class="form-control-sm" id="fontSize" name="fontName" placeholder="Ex: 'Times New Roman', Times, serif"
+        <input type="text" class="form-control-sm" id="fontName" name="fontName" placeholder="Ex: 'Times New Roman', Times, serif"
           [(ngModel)]="fontName" required>
       </div>
       <button type="button" class="btn-primary btn-sm btn" (click)="setFontName(fontName)">Submit</button>

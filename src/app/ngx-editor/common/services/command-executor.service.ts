@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import * as Utils from '../utils/ngx-editor.utils';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Injectable()
 export class CommandExecutorService {
@@ -11,7 +12,8 @@ export class CommandExecutorService {
    *
    * @param _http HTTP Client for making http requests
    */
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {
+   }
 
   /**
    * executes command from the toolbar
@@ -207,11 +209,17 @@ export class CommandExecutorService {
 
         if (restored) {
           if (this.isNumeric(fontSize)) {
-            const fontPx = '<span style="font-size: ' + fontSize + 'px;">' + deletedValue + '</span>';
-            this.insertHtml(fontPx);
+            const intFontSize = Number.parseInt(fontSize, 10);
+            if (intFontSize >= 1 && intFontSize <= 7) {
+              const fontPx = '<font size="' + fontSize + '">' + deletedValue + '</font>';
+              this.insertHtml(fontPx);
+            } else {
+              this.insertHtml(deletedValue);
+              throw new Error('Font size has to be an integer between 1 and 7');
+            }
           } else {
-            const fontPx = '<span style="font-size: ' + fontSize + ';">' + deletedValue + '</span>';
-            this.insertHtml(fontPx);
+            this.insertHtml(deletedValue);
+            throw new Error('Font size has to be a number');
           }
         }
       }
@@ -234,10 +242,10 @@ export class CommandExecutorService {
 
         if (restored) {
           if (this.isNumeric(fontName)) {
-            const fontFamily = '<span style="font-family: ' + fontName + 'px;">' + deletedValue + '</span>';
+            const fontFamily = '<font face="' + fontName + '">' + deletedValue + '</font>';
             this.insertHtml(fontFamily);
           } else {
-            const fontFamily = '<span style="font-family: ' + fontName + ';">' + deletedValue + '</span>';
+            const fontFamily = '<font face="' + fontName + '">' + deletedValue + '</font>';
             this.insertHtml(fontFamily);
           }
         }
@@ -297,5 +305,4 @@ export class CommandExecutorService {
   private checkTagSupportInBrowser(tag: string): boolean {
     return !(document.createElement(tag) instanceof HTMLUnknownElement);
   }
-
 }
