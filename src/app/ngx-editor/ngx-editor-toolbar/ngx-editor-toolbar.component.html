@@ -36,7 +36,7 @@
       [disabled]="!config['enableToolbar']">
       <i class="fa fa-text-height" aria-hidden="true"></i>
     </button>
-    <button type="button" class="ngx-editor-button" *ngIf="canEnableToolbarOptions('color')" (click)="hexColor = ''"
+    <button type="button" class="ngx-editor-button" *ngIf="canEnableToolbarOptions('color')"
       title="Color Picker" [popover]="insertColorTemplate" #colorPopover="bs-popover" containerClass="ngxePopover"
       [disabled]="!config['enableToolbar']">
       <i class="fa fa-tint" aria-hidden="true"></i>
@@ -258,13 +258,13 @@
         <label class="label-shown" for="fontSize">Choose Font Size:</label>
         <div class="btn-toolbar" role="toolbar" name="fontSize">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary" (click)="setFontSize(1)">1</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(2)">2</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(3)">3</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(4)">4</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(5)">5</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(6)">6</button>
-            <button type="button" class="btn btn-primary" (click)="setFontSize(7)">7</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('1')">1</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('2')">2</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('3')">3</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('4')">4</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('5')">5</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('6')">6</button>
+            <button type="button" class="btn btn-primary" (click)="setFontSize('7')">7</button>
           </div>
         </div>
         <!--<input type="number" min="1" max="7" class="form-control-sm" id="fontSize" name="fontSize" placeholder="Fontsize: 1 - 7"
@@ -288,5 +288,35 @@
       </div>
       <button type="button" class="btn-primary btn-sm btn" (click)="setFontName(fontName)">Submit</button>
     </form>
+  </div>
+</ng-template>
+
+<!-- Insert Video Popover template -->
+<ng-template #insertVideoTemplate>
+  <div class="ngxe-popover imgc-ctnr">
+    <div class="imgc-topbar btn-ctnr">
+      <button type="button" class="btn active">
+        <i class="fa fa-link"></i>
+      </button>
+    </div>
+    <div class="imgc-ctnt is-image">
+      <form class="extra-gt" [formGroup]="videoForm" (ngSubmit)="videoForm.valid && insertVideo()" autocomplete="off">
+        <div class="form-group">
+          <label for="videoURLInput" class="small">URL</label>
+          <input type="text" class="form-control-sm" id="videoURLInput" placeholder="URL" formControlName="videoUrl"
+            required>
+        </div>
+        <div class="row form-group">
+          <div class="col">
+            <input type="text" class="form-control-sm" formControlName="height" placeholder="height (px)" pattern="[0-9]">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control-sm" formControlName="width" placeholder="width (px)" pattern="[0-9]">
+          </div>
+          <label class="small">Height/Width</label>
+        </div>
+        <button type="submit" class="btn-primary btn-sm btn">Submit</button>
+      </form>
+    </div>
   </div>
 </ng-template>
