@@ -17,7 +17,8 @@
     "prerelease": "npm run build",
     "publish:docs": "node ./scripts/publishdocs.js",
     "release": "sh ./scripts/release.sh",
-    "start": "ng serve --aot -o --port 5000 --host 0.0.0.0",
+    "original_start": "ng serve --aot -o --port 5000 --host 0.0.0.0",
+    "start": "ng serve --port 5000 --host 0.0.0.0",
     "serve:docs": "compodoc --serve --open --output=\"docs/\"",
     "test": "ng test",
     "test:single-run": "ng test --watch false"
@@ -64,7 +65,7 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
-    "bootstrap": "^4.1.3",
+    "bootstrap": "^4.3.1",
     "chalk": "^2.4.1",
     "codelyzer": "~4.3.0",
     "core-js": "^2.5.4",
@@ -90,5 +91,12 @@
     "tslint": "~5.11.0",
     "typescript": "~2.9.2",
     "zone.js": "~0.8.26"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "ngx-color-picker": "^7.5.0",
+    "popper.js": "^1.15.0",
+    "primeicons": "^1.0.0",
+    "primeng": "^7.1.0"
   }
 }
