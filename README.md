@@ -1,6 +1,6 @@
-# NgxEditor
+# NgxEditor (adapted for Gantner Electronics)
 
-<p align="center">
+<!--<p align="center">
   <a href="https://github.com/sibiraj-s/ngx-editor">
    <img src="https://raw.githubusercontent.com/sibiraj-s/ngx-editor/master/src/assets/icons/ngx-editor.png" alt="ngxEditor">
   </a>
@@ -19,7 +19,9 @@
   <a href="https://github.com/sibiraj-s/ngx-editor/blob/master/LICENSE">
     <img alt="licence" src="https://img.shields.io/npm/l/ngx-editor.svg">
   </a>
-</p>
+</p>-->
+
+Made some changes to use this editor in Gantner Electronic GmbH's Products. Adaptions are mainly that style tags are now used instead of CSS. 
 
 ## Getting Started
 
